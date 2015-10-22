@@ -23,17 +23,17 @@ public class ResourceWithApiResponseResponseContainer {
             notes = "No details provided",
             response = Sample.class,
             responseContainer = "map",
-            code = 200,
+            code = "200",
             position = 0,
             responseHeaders = {
                     @ResponseHeader(name = "foo", description = "description", response = String.class, responseContainer = "list")
             })
     @ApiResponses({
-            @ApiResponse(code = 400, message = "Invalid ID",
+            @ApiResponse(code = "400", message = "Invalid ID",
                     response = NotFoundModel.class,
                     responseContainer = "list",
                     responseHeaders = @ResponseHeader(name = "X-Rack-Cache", description = "Explains whether or not a cache was used", response = Boolean.class)),
-            @ApiResponse(code = 404, message = "object not found")})
+            @ApiResponse(code = "404", message = "object not found")})
     public Response getTest() {
         return Response.ok().entity("out").build();
     }
@@ -44,16 +44,16 @@ public class ResourceWithApiResponseResponseContainer {
             notes = "No details provided",
             response = Sample.class,
             position = 0,
-            code = 201,
+            code = "201",
             responseHeaders = {
                     @ResponseHeader(name = "foo", description = "description", response = String.class, responseContainer = "list")
             })
     @ApiResponses({
-            @ApiResponse(code = 401, message = "Unauthorized",
+            @ApiResponse(code = "401", message = "Unauthorized",
                     response = NotFoundModel.class,
                     responseContainer = "list",
                     responseHeaders = @ResponseHeader(name = "X-Rack-Cache", description = "Explains whether or not a cache was used", response = Boolean.class)),
-            @ApiResponse(code = 405, message = "Method Not Allowed")})
+            @ApiResponse(code = "405", message = "Method Not Allowed")})
     public Response putTest() {
         return Response.ok().entity("out").build();
     }
@@ -64,15 +64,15 @@ public class ResourceWithApiResponseResponseContainer {
             notes = "No details provided",
             response = Sample.class,
             position = 0,
-            code = 202,
+            code = "202",
             responseHeaders = {
                     @ResponseHeader(name = "foo", description = "description", response = String.class, responseContainer = "list")
             })
     @ApiResponses({
-            @ApiResponse(code = 402, message = "Invalid ID",
+            @ApiResponse(code = "402", message = "Invalid ID",
                     response = NotFoundModel.class,
                     responseHeaders = @ResponseHeader(name = "X-Rack-Cache", description = "Explains whether or not a cache was used", response = Boolean.class)),
-            @ApiResponse(code = 406, message = "Method Not Allowed")})
+            @ApiResponse(code = "406", message = "Method Not Allowed")})
     public Response postTest() {
         return Response.ok().entity("out").build();
     }
@@ -84,16 +84,16 @@ public class ResourceWithApiResponseResponseContainer {
             response = Sample.class,
             responseContainer = "other",
             position = 0,
-            code = 203,
+            code = "203",
             responseHeaders = {
                     @ResponseHeader(name = "foo", description = "description", response = String.class, responseContainer = "list")
             })
     @ApiResponses({
-            @ApiResponse(code = 403, message = "Forbidden",
+            @ApiResponse(code = "403", message = "Forbidden",
                     response = NotFoundModel.class,
                     responseContainer = "wrongValue",
                     responseHeaders = @ResponseHeader(name = "X-Rack-Cache", description = "Explains whether or not a cache was used", response = Boolean.class)),
-            @ApiResponse(code = 407, message = "Proxy Authentication Required")})
+            @ApiResponse(code = "407", message = "Proxy Authentication Required")})
     public Response deleteTest() {
         return Response.ok().entity("out").build();
     }
@@ -105,12 +105,12 @@ public class ResourceWithApiResponseResponseContainer {
             response = Sample.class,
             responseContainer = "array",
             position = 0,
-            code = 203,
+            code = "203",
             responseHeaders = {
                     @ResponseHeader(name = "foo", description = "description", response = String.class, responseContainer = "list")
             })
     @ApiResponses({
-            @ApiResponse(code = 403, message = "Forbidden",
+            @ApiResponse(code = "403", message = "Forbidden",
                     response = NotFoundModel.class,
                     responseContainer = "set",
                     responseHeaders = @ResponseHeader(name = "X-Rack-Cache", description = "Explains whether or not a cache was used", response = Boolean.class))})
@@ -125,12 +125,12 @@ public class ResourceWithApiResponseResponseContainer {
             response = Sample.class,
             responseContainer = "set",
             position = 0,
-            code = 203,
+            code = "203",
             responseHeaders = {
                     @ResponseHeader(name = "foo", description = "description", response = String.class, responseContainer = "set")
             })
     @ApiResponses({
-            @ApiResponse(code = 403, message = "Forbidden",
+            @ApiResponse(code = "403", message = "Forbidden",
                     response = NotFoundModel.class,
                     responseContainer = "array",
                     responseHeaders = @ResponseHeader(name = "X-Rack-Cache", description = "Explains whether or not a cache was used", response = Boolean.class))})

@@ -18,7 +18,7 @@ public class ResourceWithReferences {
     @GET
     @Path("/test")
     @ApiResponses({
-            @ApiResponse(code = 500, message = "Error", reference = "http://swagger.io/schemas.json#/Models/ErrorResponse")
+            @ApiResponse(code = "500", message = "Error", reference = "http://swagger.io/schemas.json#/Models/ErrorResponse")
     })
     public Response getTest() throws WebApplicationException {
         return Response.ok().build();
@@ -35,7 +35,7 @@ public class ResourceWithReferences {
     @Path("/testSome")
     @ApiOperation(value = "Get Some", responseReference = "http://swagger.io/schemas.json#/Models/SomeResponse")
     @ApiResponses({
-            @ApiResponse(code = 500, message = "Error", reference = "http://swagger.io/schemas.json#/Models/ErrorResponse")
+            @ApiResponse(code = "500", message = "Error", reference = "http://swagger.io/schemas.json#/Models/ErrorResponse")
     })
     public Response getTestSome() throws WebApplicationException {
         return Response.ok().build();

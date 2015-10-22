@@ -16,8 +16,6 @@
 
 package io.swagger.jaxrs;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,8 +24,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
-import io.swagger.annotations.Extension;
-import io.swagger.annotations.ExtensionProperty;
 import io.swagger.annotations.Info;
 import io.swagger.annotations.ResponseHeader;
 import io.swagger.annotations.SwaggerDefinition;
@@ -64,13 +60,6 @@ import io.swagger.util.ParameterProcessor;
 import io.swagger.util.PathUtils;
 import io.swagger.util.ReflectionUtils;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.HttpMethod;
-import javax.ws.rs.Produces;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -86,6 +75,17 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.HttpMethod;
+import javax.ws.rs.Produces;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 public class Reader {
     private static final Logger LOGGER = LoggerFactory.getLogger(Reader.class);
@@ -174,7 +174,7 @@ public class Reader {
     }
 
     private Swagger read(Class<?> cls, String parentPath, String parentMethod, boolean readHidden, String[] parentConsumes, String[] parentProduces, Map<String, Tag> parentTags, List<Parameter> parentParameters, Set<Class<?>> scannedResources) {
-        Api api = (Api) cls.getAnnotation(Api.class);
+        Api api = cls.getAnnotation(Api.class);
         Map<String, SecurityScope> globalScopes = new HashMap<String, SecurityScope>();
 
         Map<String, Tag> tags = new HashMap<String, Tag>();
@@ -742,7 +742,7 @@ public class Reader {
             final Property property = ModelConverters.getInstance().readAsProperty(responseType);
             if (property != null) {
                 final Property responseProperty = ContainerWrapper.wrapContainer(responseContainer, property);
-                final int responseCode = apiOperation == null ? 200 : apiOperation.code();
+                final String responseCode = apiOperation == null ? "200" : apiOperation.code();
                 operation.response(responseCode, new Response().description(SUCCESSFUL_OPERATION).schema(responseProperty)
                         .headers(defaultResponseHeaders));
                 appendModels(responseType);
@@ -778,7 +778,7 @@ public class Reader {
                         .description(apiResponse.message())
                         .headers(responseHeaders);
 
-                if (apiResponse.code() == 0) {
+                if (apiResponse.code() == null) {
                     operation.defaultResponse(response);
                 } else {
                     operation.response(apiResponse.code(), response);
@@ -873,7 +873,7 @@ public class Reader {
         } else if (method.getAnnotation(PATCH.class) != null) {
             return "patch";
         } else if (method.getAnnotation(HttpMethod.class) != null) {
-            HttpMethod httpMethod = (HttpMethod) method.getAnnotation(HttpMethod.class);
+            HttpMethod httpMethod = method.getAnnotation(HttpMethod.class);
             return httpMethod.value().toLowerCase();
         } else if ((ReflectionUtils.getOverriddenMethod(method)) != null) {
             return extractOperationMethod(apiOperation, ReflectionUtils.getOverriddenMethod(method), chain);

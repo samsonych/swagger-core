@@ -25,8 +25,8 @@ public class ResourceWithBeanParams {
     response = String.class,
     responseContainer = "Map"*/)
     @ApiResponses({
-            @ApiResponse(code = 400, message = "Invalid ID", response = NotFoundModel.class),
-            @ApiResponse(code = 404, message = "object not found")})
+            @ApiResponse(code = "400", message = "Invalid ID", response = NotFoundModel.class),
+            @ApiResponse(code = "404", message = "object not found")})
     public Map<String, Integer> getTest(
             @BeanParam Pagination pagination
     ) throws WebApplicationException {
@@ -38,8 +38,8 @@ public class ResourceWithBeanParams {
     @ApiOperation(value = "Get test object by ID",
             notes = "No details provided")
     @ApiResponses({
-            @ApiResponse(code = 400, message = "Invalid ID", response = NotFoundModel.class),
-            @ApiResponse(code = 404, message = "object not found")})
+            @ApiResponse(code = "400", message = "Invalid ID", response = NotFoundModel.class),
+            @ApiResponse(code = "404", message = "object not found")})
     public Map<String, Integer> getTestBeanParams(@BeanParam TestBeanParam params, @DefaultValue("bodyParam") String
             testBody) throws
             WebApplicationException {

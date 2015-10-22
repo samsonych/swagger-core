@@ -31,16 +31,6 @@ import io.swagger.util.ParameterProcessor;
 import io.swagger.util.PathUtils;
 import io.swagger.util.ReflectionUtils;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Collections2;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -52,6 +42,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Collections2;
 
 public class ServletReaderExtension implements ReaderExtension {
 
@@ -143,7 +144,8 @@ public class ServletReaderExtension implements ReaderExtension {
         final ApiOperation apiOperation = ReflectionUtils.getAnnotation(method, ApiOperation.class);
         if (apiOperation != null && !ReflectionUtils.isVoid(apiOperation.response())) {
             return apiOperation.response();
-        } else {
+        }
+        else {
             return method.getGenericReturnType();
         }
     }
@@ -210,8 +212,8 @@ public class ServletReaderExtension implements ReaderExtension {
     @Override
     public String getHttpMethod(ReaderContext context, Method method) {
         final ApiOperation apiOperation = ReflectionUtils.getAnnotation(method, ApiOperation.class);
-        return apiOperation == null || StringUtils.isEmpty(apiOperation.httpMethod()) ?
-                context.getParentHttpMethod() : apiOperation.httpMethod();
+        return apiOperation == null || StringUtils.isEmpty(apiOperation.httpMethod()) ? context.getParentHttpMethod()
+                : apiOperation.httpMethod();
     }
 
     @Override
@@ -219,8 +221,7 @@ public class ServletReaderExtension implements ReaderExtension {
         final Api apiAnnotation = context.getCls().getAnnotation(Api.class);
         final ApiOperation apiOperation = ReflectionUtils.getAnnotation(method, ApiOperation.class);
         final String operationPath = apiOperation == null ? null : apiOperation.nickname();
-        return PathUtils.collectPath(context.getParentPath(),
-                apiAnnotation == null ? null : apiAnnotation.value(),
+        return PathUtils.collectPath(context.getParentPath(), apiAnnotation == null ? null : apiAnnotation.value(),
                 StringUtils.defaultIfBlank(operationPath, method.getName()));
     }
 
@@ -229,7 +230,8 @@ public class ServletReaderExtension implements ReaderExtension {
         final ApiOperation apiOperation = ReflectionUtils.getAnnotation(method, ApiOperation.class);
         if (apiOperation != null && StringUtils.isNotBlank(apiOperation.nickname())) {
             operation.operationId(apiOperation.nickname());
-        } else {
+        }
+        else {
             operation.operationId(method.getName());
         }
     }
@@ -325,7 +327,7 @@ public class ServletReaderExtension implements ReaderExtension {
 
     @Override
     public void applyResponses(ReaderContext context, Operation operation, Method method) {
-        final Map<Integer, Response> result = new HashMap<Integer, Response>();
+        final Map<String, Response> result = new HashMap<String, Response>();
 
         final ApiOperation apiOperation = ReflectionUtils.getAnnotation(method, ApiOperation.class);
         if (apiOperation != null && StringUtils.isNotBlank(apiOperation.responseReference())) {
@@ -338,14 +340,12 @@ public class ServletReaderExtension implements ReaderExtension {
         if (isValidResponse(responseType)) {
             final Property property = ModelConverters.getInstance().readAsProperty(responseType);
             if (property != null) {
-                final Property responseProperty = ContainerWrapper.wrapContainer(getResponseContainer(apiOperation), property);
-                final int responseCode = apiOperation == null ? 200 : apiOperation.code();
-                final Map<String, Property> defaultResponseHeaders = apiOperation == null ?
-                        Collections.<String, Property>emptyMap() :
-                        parseResponseHeaders(context, apiOperation.responseHeaders());
-                final Response response = new Response()
-                        .description(SUCCESSFUL_OPERATION)
-                        .schema(responseProperty)
+                final Property responseProperty = ContainerWrapper.wrapContainer(getResponseContainer(apiOperation),
+                        property);
+                final String responseCode = apiOperation == null ? "200" : apiOperation.code();
+                final Map<String, Property> defaultResponseHeaders = apiOperation == null ? Collections
+                        .<String, Property> emptyMap() : parseResponseHeaders(context, apiOperation.responseHeaders());
+                final Response response = new Response().description(SUCCESSFUL_OPERATION).schema(responseProperty)
                         .headers(defaultResponseHeaders);
                 result.put(responseCode, response);
                 appendModels(context.getSwagger(), responseType);
@@ -355,15 +355,15 @@ public class ServletReaderExtension implements ReaderExtension {
         final ApiResponses responseAnnotation = ReflectionUtils.getAnnotation(method, ApiResponses.class);
         if (responseAnnotation != null) {
             for (ApiResponse apiResponse : responseAnnotation.value()) {
-                final Map<String, Property> responseHeaders = parseResponseHeaders(context, apiResponse.responseHeaders());
+                final Map<String, Property> responseHeaders = parseResponseHeaders(context,
+                        apiResponse.responseHeaders());
 
-                final Response response = new Response()
-                        .description(apiResponse.message())
-                        .headers(responseHeaders);
+                final Response response = new Response().description(apiResponse.message()).headers(responseHeaders);
 
                 if (StringUtils.isNotEmpty(apiResponse.reference())) {
                     response.schema(new RefProperty(apiResponse.reference()));
-                } else if (!ReflectionUtils.isVoid(apiResponse.response())) {
+                }
+                else if (!ReflectionUtils.isVoid(apiResponse.response())) {
                     final Type type = apiResponse.response();
                     final Property property = ModelConverters.getInstance().readAsProperty(type);
                     if (property != null) {
@@ -375,10 +375,11 @@ public class ServletReaderExtension implements ReaderExtension {
             }
         }
 
-        for (Map.Entry<Integer, Response> responseEntry : result.entrySet()) {
-            if (responseEntry.getKey() == 0) {
+        for (Map.Entry<String, Response> responseEntry : result.entrySet()) {
+            if (responseEntry.getKey() == null || "0".equals(responseEntry.getKey())) {
                 operation.defaultResponse(responseEntry.getValue());
-            } else {
+            }
+            else {
                 operation.response(responseEntry.getKey(), responseEntry.getValue());
             }
         }
@@ -409,7 +410,7 @@ public class ServletReaderExtension implements ReaderExtension {
         }
         final Type type = ReflectionUtils.typeFromString(param.dataType());
         return ParameterProcessor.applyAnnotations(swagger, p, type == null ? String.class : type,
-                Collections.<Annotation>singletonList(param));
+                Collections.<Annotation> singletonList(param));
     }
 
     enum ParameterFactory {
@@ -504,7 +505,8 @@ public class ServletReaderExtension implements ReaderExtension {
         }
 
         public static Property wrapContainer(String container, Property property, ContainerWrapper... allowed) {
-            final Set<ContainerWrapper> tmp = allowed.length > 0 ? EnumSet.copyOf(Arrays.asList(allowed)) : EnumSet.allOf(ContainerWrapper.class);
+            final Set<ContainerWrapper> tmp = allowed.length > 0 ? EnumSet.copyOf(Arrays.asList(allowed)) : EnumSet
+                    .allOf(ContainerWrapper.class);
             for (ContainerWrapper wrapper : tmp) {
                 final Property prop = wrapper.wrap(container, property);
                 if (prop != null) {

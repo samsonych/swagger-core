@@ -173,7 +173,7 @@ public @interface ApiOperation {
      * <p>
      * The value should be one of the formal <a target="_blank" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">HTTP Status Code Definitions</a>.
      */
-    int code() default 200;
+    String code() default "200";
 
     /**
      * @return an optional array of extensions

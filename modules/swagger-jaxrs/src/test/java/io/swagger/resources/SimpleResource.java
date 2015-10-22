@@ -30,8 +30,8 @@ public class SimpleResource {
             response = Sample.class,
             position = 0)
     @ApiResponses({
-            @ApiResponse(code = 400, message = "Invalid ID", response = NotFoundModel.class),
-            @ApiResponse(code = 404, message = "object not found")})
+            @ApiResponse(code = "400", message = "Invalid ID", response = NotFoundModel.class),
+            @ApiResponse(code = "404", message = "object not found")})
     public Response getTest(
             @ApiParam(value = "sample param data", required = true, allowableValues = "range[0,10]")
             @DefaultValue("5")
@@ -52,8 +52,8 @@ public class SimpleResource {
             response = String.class,
             position = 0)
     @ApiResponses({
-            @ApiResponse(code = 400, message = "Invalid ID", response = NotFoundModel.class),
-            @ApiResponse(code = 404, message = "object not found")})
+            @ApiResponse(code = "400", message = "Invalid ID", response = NotFoundModel.class),
+            @ApiResponse(code = "404", message = "object not found")})
     public Response getStringValue() throws WebApplicationException {
         return Response.ok().entity("ok").build();
     }
@@ -64,8 +64,8 @@ public class SimpleResource {
             notes = "No details provided",
             position = 1)
     @ApiResponses({
-            @ApiResponse(code = 400, message = "Invalid ID"),
-            @ApiResponse(code = 404, message = "object not found")})
+            @ApiResponse(code = "400", message = "Invalid ID"),
+            @ApiResponse(code = "404", message = "object not found")})
     public Response updateTest(
             @ApiParam(value = "sample param data", required = true) Sample sample,
             @HeaderParam(value = "Authorization") String authorization,

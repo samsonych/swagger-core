@@ -25,8 +25,8 @@ public abstract class AbstractResource<T extends Number> {
             response = String.class,
             authorizations = @Authorization(value = "api_key")
     )
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid ID supplied"),
-            @ApiResponse(code = 404, message = "Pet not found")})
+    @ApiResponses(value = {@ApiResponse(code = "400", message = "Invalid ID supplied"),
+            @ApiResponse(code = "404", message = "Pet not found")})
     public Response overriddenMethodWithTypedParam(
             @ApiParam(value = "ID of pet to return") @PathParam("petId1") T petId) {
         String pet = "dog";
@@ -40,8 +40,8 @@ public abstract class AbstractResource<T extends Number> {
             response = String.class,
             authorizations = @Authorization(value = "api_key")
     )
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid ID supplied"),
-            @ApiResponse(code = 404, message = "Pet not found")})
+    @ApiResponses(value = {@ApiResponse(code = "400", message = "Invalid ID supplied"),
+            @ApiResponse(code = "404", message = "Pet not found")})
     public Response methodWithoutTypedParam(
             @ApiParam(value = "ID of pet to return") @PathParam("petId2") Number petId) {
         String pet = "dog";
@@ -55,8 +55,8 @@ public abstract class AbstractResource<T extends Number> {
             response = String.class,
             authorizations = @Authorization(value = "api_key")
     )
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid ID supplied"),
-            @ApiResponse(code = 404, message = "Pet not found")})
+    @ApiResponses(value = {@ApiResponse(code = "400", message = "Invalid ID supplied"),
+            @ApiResponse(code = "404", message = "Pet not found")})
     public Response overriddenMethodWithoutTypedParam(
             @ApiParam(value = "ID of pet to return") @PathParam("petId3") Long petId) {
         String pet = "dog";
@@ -66,7 +66,7 @@ public abstract class AbstractResource<T extends Number> {
     @DELETE
     @Path("/{petId1}")
     @ApiOperation(value = "Deletes a pet")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid pet value")})
+    @ApiResponses(value = {@ApiResponse(code = "400", message = "Invalid pet value")})
     public Response deletePet(
             @ApiParam() @HeaderParam("api_key") String apiKey,
             @ApiParam(value = "Pet id to delete", required = true) @PathParam("petId1") Long petId) {

@@ -38,8 +38,8 @@ public class DescendantResource extends AbstractResource<Long> implements Interf
             response = String.class,
             authorizations = @Authorization(value = "api_key")
     )
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid ID supplied"),
-            @ApiResponse(code = 404, message = "Pet not found")})
+    @ApiResponses(value = {@ApiResponse(code = "400", message = "Invalid ID supplied"),
+            @ApiResponse(code = "404", message = "Pet not found")})
     public Response methodWithoutTypedParam(@ApiParam(value = "ID of pet to return child") @PathParam("petId4") Long petId) {
         return Response.ok().build();
     }

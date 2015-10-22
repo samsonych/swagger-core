@@ -113,30 +113,30 @@ public class ResourceWithAnnotations {
     @ApiResponses({
             @ApiResponse(
                     message = "response_annotation1",
-                    code = 0,
+                    code = "0",
                     response = String.class,
                     responseContainer = "array"),
             @ApiResponse(
                     message = "response_annotation2",
-                    code = 400,
+                    code = "400",
                     response = String.class,
                     responseContainer = "map"),
             @ApiResponse(
                     message = "response_annotation3",
-                    code = 401,
+                    code = "401",
                     response = String.class,
                     responseContainer = "set"),
             @ApiResponse(
                     message = "response_annotation4",
-                    code = 402,
+                    code = "402",
                     reference = "#test"),
             @ApiResponse(
                     message = "response_annotation5",
-                    code = 403,
+                    code = "403",
                     response = Class.class),
             @ApiResponse(
                     message = "response_annotation6",
-                    code = 404,
+                    code = "404",
                     response = Void.class)
     })
     @ApiImplicitParams({
@@ -167,7 +167,7 @@ public class ResourceWithAnnotations {
                                     @AuthorizationScope(
                                             scope = "",
                                             description = "")})},
-            code = 0,
+            code = "0",
             response = Class.class,
             responseContainer = "",
             responseHeaders = {},
