@@ -742,7 +742,7 @@ public class Reader {
             final Property property = ModelConverters.getInstance().readAsProperty(responseType);
             if (property != null) {
                 final Property responseProperty = ContainerWrapper.wrapContainer(responseContainer, property);
-                final int responseCode = apiOperation == null ? 200 : apiOperation.code();
+                final int responseCode = apiOperation == null ? 200 : Integer.valueOf(apiOperation.code());
                 operation.response(responseCode, new Response().description(SUCCESSFUL_OPERATION).schema(responseProperty)
                         .headers(defaultResponseHeaders));
                 appendModels(responseType);
@@ -778,7 +778,7 @@ public class Reader {
                         .description(apiResponse.message())
                         .headers(responseHeaders);
 
-                if (apiResponse.code() == 0) {
+                if (apiResponse.code() == null) {
                     operation.defaultResponse(response);
                 } else {
                     operation.response(apiResponse.code(), response);

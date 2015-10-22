@@ -19,11 +19,11 @@ public class ResourceWithTypedResponses {
 
     @GET
     @Path("testPrimitiveResponses")
-    @ApiResponses({@ApiResponse(code = 400, message = "Message for URI", response = URI.class),
-            @ApiResponse(code = 401, message = "Message for URL", response = URL.class),
-            @ApiResponse(code = 402, message = "Message for UUID", response = UUID.class),
-            @ApiResponse(code = 403, message = "Message for Long", response = Long.class),
-            @ApiResponse(code = 404, message = "Message for String", response = String.class)})
+    @ApiResponses({@ApiResponse(code = "400", message = "Message for URI", response = URI.class),
+            @ApiResponse(code = "401", message = "Message for URL", response = URL.class),
+            @ApiResponse(code = "402", message = "Message for UUID", response = UUID.class),
+            @ApiResponse(code = "403", message = "Message for Long", response = Long.class),
+            @ApiResponse(code = "404", message = "Message for String", response = String.class)})
     public Response testPrimitiveResponses() {
         return null;
     }

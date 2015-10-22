@@ -26,8 +26,8 @@ public class ResourceWithRanges {
             response = Sample.class,
             position = 0)
     @ApiResponses({
-            @ApiResponse(code = 400, message = "Invalid ID", response = NotFoundModel.class),
-            @ApiResponse(code = 404, message = "object not found")})
+            @ApiResponse(code = "400", message = "Invalid ID", response = NotFoundModel.class),
+            @ApiResponse(code = "404", message = "object not found")})
     public Response getTest(
             @ApiParam(value = "sample param data", defaultValue = "5", allowableValues = "range[0,10]")
             @PathParam("id") Integer id,

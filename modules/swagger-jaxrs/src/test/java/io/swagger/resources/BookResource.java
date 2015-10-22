@@ -32,7 +32,7 @@ public class BookResource extends BaseResource {
     @Produces("text/plain")
     @ApiOperation(value = "Returns book id and name")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Completed Successfully", response = String.class)})
+            @ApiResponse(code = "201", message = "Completed Successfully", response = String.class)})
     public String getIt(@ApiParam("The books name") @PathParam("name") final String name) {
         return "Hi there " + name + ", id " + getId() + ", description" + getDescription();
     }

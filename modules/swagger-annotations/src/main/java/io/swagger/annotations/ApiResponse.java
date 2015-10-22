@@ -47,7 +47,7 @@ public @interface ApiResponse {
      * <p>
      * The value should be one of the formal <a target="_blank" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">HTTP Status Code Definitions</a>.
      */
-    int code();
+    String code();
 
     /**
      * Human-readable message to accompany the response.

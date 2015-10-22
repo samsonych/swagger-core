@@ -22,8 +22,8 @@ public class ResourceWithVoidReturns {
     @ApiOperation(value = "Get object by ID",
             notes = "No details provided")
     @ApiResponses({
-            @ApiResponse(code = 400, message = "Invalid ID", response = NotFoundModel.class),
-            @ApiResponse(code = 404, message = "object not found")})
+            @ApiResponse(code = "400", message = "Invalid ID", response = NotFoundModel.class),
+            @ApiResponse(code = "404", message = "object not found")})
     public Response getTest(
             @ApiParam(value = "sample param data", required = true, allowableValues = "range[0,10]", defaultValue = "2")
             @DefaultValue("1")

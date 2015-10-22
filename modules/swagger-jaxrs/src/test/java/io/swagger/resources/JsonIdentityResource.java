@@ -20,7 +20,7 @@ public class JsonIdentityResource {
 
     @POST
     @ApiOperation(value = "Add a single object")
-    @ApiResponses(value = {@ApiResponse(code = 405, message = "Invalid input")})
+    @ApiResponses(value = {@ApiResponse(code = "405", message = "Invalid input")})
     public Response test(
             @ApiParam(value = "Test", required = true) ModelWithJsonIdentity model) {
         return Response.ok().entity("SUCCESS").build();

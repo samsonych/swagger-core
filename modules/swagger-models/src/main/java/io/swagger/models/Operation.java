@@ -84,6 +84,11 @@ public class Operation {
         return this;
     }
 
+    public Operation response(String key, Response response) {
+        this.addResponse(key, response);
+        return this;
+    }
+
     public Operation defaultResponse(Response response) {
         this.addResponse("default", response);
         return this;
